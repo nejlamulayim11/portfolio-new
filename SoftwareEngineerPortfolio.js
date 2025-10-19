@@ -112,6 +112,7 @@ const ProjectCard = ({ project }) => {
   );
 };
 
+// Footer bileşeni artık global olarak App içinde çağrılacak.
 const Footer = ({ name }) => {
   const [clickCount, setClickCount] = useState(0);
 
@@ -290,7 +291,8 @@ const EducationExperienceSection = ({ experience, education }) => (
 );
 
 // 5. İLETİŞİM
-const ContactSection = ({ contact, name }) => (
+// Footer artık burada çağrılmıyor.
+const ContactSection = ({ contact }) => (
     <section className="animate-fade-in text-center">
         <SectionTitle icon={Mail} title="İletişim Bilgileri" />
         <div className="mt-8 flex flex-wrap justify-center space-x-4 sm:space-x-8 text-lg">
@@ -315,7 +317,6 @@ const ContactSection = ({ contact, name }) => (
                 <span className="font-medium">GitHub Profilim</span>
             </a>
         </div>
-        <Footer name={name} />
     </section>
 );
 
@@ -340,7 +341,7 @@ const App = () => {
                   education={userProfile.education} 
                 />;
       case 'iletisim':
-        return <ContactSection contact={userProfile.contact} name={userProfile.name} />;
+        return <ContactSection contact={userProfile.contact} />; // Footer kaldırıldı
       default:
         return <HomePage profile={userProfile} />;
     }
@@ -359,8 +360,9 @@ const App = () => {
           {/* 2. Koşullu İçerik Render Etme */}
           {renderSection()}
           
-          {/* Footer artık sadece İletişim sayfasında görünüyor (İletişim Bileşeni içinde). */}
         </main>
+        {/* Footer (JS etkileşimi) artık tüm sayfalarda görünecek şekilde buraya taşındı. */}
+        <Footer name={userProfile.name} /> 
       </div>
     </div>
   );
